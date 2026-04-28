@@ -1,432 +1,737 @@
-<!doctype html>
-<html lang="cs">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FACILITATE Resource Catalogue</title>
-  <style>
-    :root {
-      --bg: #0b1020;
-      --card: #141b33;
-      --card-soft: #1a2445;
-      --text: #e8eeff;
-      --muted: #afbddb;
-      --accent: #5ea1ff;
-      --ok: #2fc084;
-      --error: #ff6f6f;
-      --border: #2b3763;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #080d1a, #0b1020 25%);
-      color: var(--text);
-      line-height: 1.5;
-    }
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    .hero {
-      background: radial-gradient(circle at top right, #1d3470, #121a34 60%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 20px;
-    }
-    h1, h2, h3 { margin-top: 0; }
-    h1 { margin-bottom: 8px; font-size: 2rem; }
-    .lead { color: var(--muted); margin-top: 0; }
-    .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-    .chip {
-      background: rgba(94, 161, 255, 0.15);
-      color: #cfe0ff;
-      border: 1px solid #3e5ca5;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 0.9rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-    }
-    .card p { color: var(--muted); }
-    .demo {
-      background: var(--card-soft);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    label { display: block; margin-bottom: 6px; font-weight: bold; }
-    input {
-      width: 100%;
-      background: #0d1430;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    button {
-      border: 0;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-weight: bold;
-      cursor: pointer;
-      background: var(--accent);
-      color: #0a1636;
-    }
-    pre {
-      margin: 12px 0 0;
-      padding: 12px;
-      border-radius: 8px;
-      background: #090f25;
-      border: 1px solid var(--border);
-      max-height: 280px;
-      overflow: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    .status { margin-top: 8px; font-size: 0.92rem; }
-    .status.ok { color: var(--ok); }
-    .status.error { color: var(--error); }
-    .resources-matrix {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
-    }
-    .resource-card {
-      background: #101936;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-    }
-    .resource-card h4 {
-      margin: 0 0 8px;
-      font-size: 1rem;
-      line-height: 1.35;
-    }
-    .resource-card p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    .resource-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-    .resource-pill {
-      font-size: 0.78rem;
-      border: 1px solid #39589e;
-      color: #cfe0ff;
-      background: rgba(94, 161, 255, 0.12);
-      border-radius: 999px;
-      padding: 2px 8px;
-    }
-    .resource-actions {
-      margin-top: 10px;
-      display: flex;
-      justify-content: flex-end;
-    }
-    .danger-btn {
-      border: 1px solid #b14f5f;
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 0.85rem;
-      font-weight: bold;
-      cursor: pointer;
-      color: #ffd9df;
-      background: rgba(177, 79, 95, 0.18);
-    }
-    .danger-btn:hover {
-      background: rgba(177, 79, 95, 0.32);
-    }
-    .danger-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .raw-json-label {
-      margin: 12px 0 4px;
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-    a { color: #9bc4ff; }
-  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FACILITATE | Resource Catalogue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050810;
+            --surface: #0f172a;
+            --surface-hover: #1e293b;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.3);
+            --accent: #818cf8;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --success: #10b981;
+            --error: #ef4444;
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.1) 0%, transparent 25%);
+            background-attachment: fixed;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 999px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--text);
+            background: var(--surface-hover);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: var(--primary-glow);
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        h2 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--primary); }
+        p.lead { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2rem; }
+
+        /* Forms & Inputs */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            background: #070a13;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #050810;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #050810;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            background: var(--surface-hover);
+        }
+
+        /* Grid & Components */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .resource-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .resource-card:hover::before {
+            opacity: 1;
+        }
+
+        .resource-id {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .resource-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .resource-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .resource-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            gap: 8px;
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .resource-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .delete-btn {
+            color: var(--error);
+            background: transparent;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Status & Feedback */
+        .status-box {
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            display: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .status-box.active { display: block; }
+        .status-box.success { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status-box.error { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        pre {
+            background: #070a13;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            overflow-x: auto;
+            max-height: 500px;
+            margin: 0;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .search-bar {
+            margin-bottom: 40px;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 24px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .close-modal:hover { background: var(--surface-hover); color: var(--text); }
+
+        /* Utility */
+        .hidden { display: none; }
+    </style>
 </head>
 <body>
-  <main class="container">
-    <section class="hero">
-      <h1>FACILITATE Resource Catalogue</h1>
-      <p class="lead">
-        Interaktivní UI pro prezentaci hlavních funkcionalit API: vytvoření draft karty z minima dat a následné rozšíření přes AI enrichment.
-      </p>
-      <div class="chips">
-        <span class="chip">FastAPI backend</span>
-        <span class="chip">Resource CRUD</span>
-        <span class="chip">Filtrování katalogu</span>
-        <span class="chip">AI enrichment</span>
-      </div>
-      <p style="margin-top: 14px;">
-        API dokumentace: <a href="/docs" target="_blank" rel="noreferrer">/docs</a>
-      </p>
-    </section>
+    <nav>
+        <div class="nav-content">
+            <div class="logo">FACILITATE</div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showView('search')">Catalogue</a>
+                <a class="nav-link" onclick="showView('create')">New Resource</a>
+                <a class="nav-link" onclick="showView('enrich')">AI Enrichment</a>
+            </div>
+        </div>
+    </nav>
 
-    <section class="grid">
-      <article class="card">
-        <h3>Seznam resources</h3>
-        <p>Načte data z <code>GET /resources</code> včetně volitelného fulltextu přes parametr <code>q</code>.</p>
-      </article>
-      <article class="card">
-        <h3>Detail resource</h3>
-        <p>Vyhledá konkrétní kartu přes <code>GET /resources/{id}</code>.</p>
-      </article>
-      <article class="card">
-        <h3>Draft + enrich flow</h3>
-        <p>Nejprve vytvoř draft přes <code>POST /resources/draft</code>, pak ho doplň přes <code>POST /resources/{id}/enrich</code>.</p>
-      </article>
-    </section>
+    <main class="container">
+        <!-- SEARCH VIEW -->
+        <div id="view-search" class="view active">
+            <h1>Resource Catalogue</h1>
+            <p class="lead">Browse and search existing resources within the FACILITATE ecosystem. Click any card to view full details.</p>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by keywords, title, or description...">
+                <button class="btn btn-primary" id="searchBtn">Search</button>
+            </div>
 
-    <section class="demo">
-      <h2>Demo funkcionalit</h2>
+            <div id="searchStatus" class="status-box"></div>
+            <div id="resourcesGrid" class="resources-grid">
+                <!-- Cards will be injected here -->
+            </div>
+        </div>
 
-      <div style="margin-bottom: 16px;">
-        <label for="resourcesQueryInput">Fulltext (q)</label>
-        <input id="resourcesQueryInput" placeholder="např. roadmap, etds, interoperability" />
-        <button id="loadResourcesBtn">Načíst resources</button>
-        <div id="resourcesStatus" class="status"></div>
-        <div id="resourcesCards" class="resources-matrix"></div>
-        <p class="raw-json-label">Raw JSON výstup:</p>
-        <pre id="resourcesOutput">Zadej volitelně fulltext a klikni na "Načíst resources".</pre>
-      </div>
+        <!-- CREATE VIEW -->
+        <div id="view-create" class="view">
+            <h1>Add New Resource</h1>
+            <p class="lead">Create a basic draft resource card. You can enrich it later using AI.</p>
+            
+            <div class="card" style="max-width: 700px;">
+                <div class="input-group">
+                    <label>Unique ID (e.g., FAC-R-XXXX)</label>
+                    <input type="text" id="createId" placeholder="FAC-R-0002">
+                </div>
+                <div class="input-group">
+                    <label>Resource Title</label>
+                    <input type="text" id="createTitle" placeholder="e.g., Sustainable Tourism Manual">
+                </div>
+                <div class="input-group">
+                    <label>URL Reference</label>
+                    <input type="url" id="createUrl" placeholder="https://example.com/document">
+                </div>
+                <button class="btn btn-primary" id="createBtn" style="width: 100%;">
+                    <span>Create Draft Card</span>
+                    <div class="loading-spinner"></div>
+                </button>
+                <div id="createStatus" class="status-box"></div>
+            </div>
+        </div>
 
-      <div style="margin-bottom: 16px;">
-        <label for="resourceIdInput">Resource ID</label>
-        <input id="resourceIdInput" value="FAC-R-0001" />
-        <button id="loadResourceDetailBtn">Načíst detail</button>
-        <div id="detailStatus" class="status"></div>
-        <pre id="detailOutput">Zadej resource ID a načti detail.</pre>
-      </div>
+        <!-- ENRICH VIEW -->
+        <div id="view-enrich" class="view">
+            <h1>AI Enrichment</h1>
+            <p class="lead">Leverage AI to automatically extract metadata, categories, and descriptions from the source URL.</p>
+            
+            <div class="card" style="max-width: 700px;">
+                <div class="input-group">
+                    <label>Resource ID to Enrich</label>
+                    <input type="text" id="enrichId" placeholder="FAC-R-0002">
+                </div>
+                <div class="input-group">
+                    <label>Optional Analysis URL (if different from resource URL)</label>
+                    <input type="url" id="enrichUrl" placeholder="https://example.com/analysis">
+                </div>
+                <button class="btn btn-primary" id="enrichBtn" style="width: 100%;">
+                    <span>Start AI Analysis</span>
+                    <div class="loading-spinner"></div>
+                </button>
+                <div id="enrichStatus" class="status-box"></div>
+                <div id="enrichResult" class="hidden" style="margin-top: 24px;">
+                    <label>Enrichment Result (JSON):</label>
+                    <pre id="enrichOutput"></pre>
+                </div>
+            </div>
+        </div>
+    </main>
 
-      <div style="margin-bottom: 16px;">
-        <h3>1) Vytvoření draft resource</h3>
-        <label for="draftIdInput">Draft Resource ID</label>
-        <input id="draftIdInput" value="FAC-R-0002" />
-        <label for="draftTitleInput">Title</label>
-        <input id="draftTitleInput" value="My new tourism resource" />
-        <label for="draftUrlInput">URL</label>
-        <input id="draftUrlInput" value="https://example.com" />
-        <button id="createDraftBtn">Vytvořit draft</button>
-        <div id="draftStatus" class="status"></div>
-        <pre id="draftOutput">Vyplň minimální data a vytvoř draft kartu.</pre>
-      </div>
+    <!-- Modal for Resource Details -->
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle" style="margin: 0; color: var(--text);">Resource Details</h2>
+                <button class="close-modal" onclick="closeModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <pre id="modalJson"></pre>
+            </div>
+        </div>
+    </div>
 
-      <div>
-        <h3>2) Rozšíření existující draft karty</h3>
-        <label for="enrichResourceIdInput">Resource ID k obohacení</label>
-        <input id="enrichResourceIdInput" value="FAC-R-0002" />
-        <label for="enrichUrlInput">URL pro AI enrichment (volitelné)</label>
-        <input id="enrichUrlInput" value="https://tourismdataspace-csa.eu/" />
-        <button id="enrichResourceBtn">Rozšířit kartu přes AI enrichment</button>
-        <div id="enrichStatus" class="status"></div>
-        <pre id="enrichOutput">Po vytvoření draftu spusť enrichment pro doplnění karty.</pre>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    function setStatus(id, message, ok) {
-      const el = document.getElementById(id);
-      el.textContent = message;
-      el.className = "status " + (ok ? "ok" : "error");
-    }
-
-    function setOutput(id, data) {
-      document.getElementById(id).textContent = JSON.stringify(data, null, 2);
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll("\"", "&quot;")
-        .replaceAll("'", "&#39;");
-    }
-
-    function renderResourcesCards(resources) {
-      const container = document.getElementById("resourcesCards");
-      if (!Array.isArray(resources) || resources.length === 0) {
-        container.innerHTML = "<p class=\"lead\">Nebyly nalezeny žádné resources.</p>";
-        return;
-      }
-
-      container.innerHTML = resources
-        .map((resource) => {
-          const title = escapeHtml(resource.title || "Bez názvu");
-          const id = escapeHtml(resource.resource_id || "N/A");
-          const url = escapeHtml(resource.url || "");
-          const shortDescription = String(resource.short_description || "Bez popisu.");
-          const descriptionPreviewRaw = shortDescription.length > 180
-            ? shortDescription.slice(0, 180) + "..."
-            : shortDescription;
-          const descriptionPreview = escapeHtml(descriptionPreviewRaw);
-          return `
-            <article class="resource-card">
-              <div class="resource-meta">
-                <span class="resource-pill">${id}</span>
-              </div>
-              <h4>${title}</h4>
-              <p>${descriptionPreview}</p>
-              <a href="${url}" target="_blank" rel="noreferrer">${url}</a>
-              <div class="resource-actions">
-                <button type="button" class="danger-btn" data-delete-resource-id="${id}">Smazat zdroj</button>
-              </div>
-            </article>
-          `;
-        })
-        .join("");
-    }
-
-    async function loadResources() {
-      const query = document.getElementById("resourcesQueryInput").value.trim();
-      const params = new URLSearchParams();
-      if (query) {
-        params.set("q", query);
-      }
-      const endpoint = params.toString() ? "/resources?" + params.toString() : "/resources";
-      const res = await fetch(endpoint);
-      const data = await res.json();
-      if (!res.ok) {
-        setStatus("resourcesStatus", "Načtení selhalo.", false);
-        renderResourcesCards([]);
-        setOutput("resourcesOutput", data);
-        return;
-      }
-      const statusMessage = query
-        ? "Resources úspěšně načteny pro q=\"" + query + "\"."
-        : "Resources úspěšně načteny.";
-      setStatus("resourcesStatus", statusMessage, true);
-      renderResourcesCards(data);
-      setOutput("resourcesOutput", data);
-    }
-
-    async function handleRequest(action) {
-      try {
-        await action();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    document.getElementById("loadResourcesBtn").addEventListener("click", () =>
-      handleRequest(loadResources)
-    );
-
-    document.getElementById("resourcesCards").addEventListener("click", (event) =>
-      handleRequest(async () => {
-        const button = event.target.closest("button[data-delete-resource-id]");
-        if (!button) {
-          return;
+    <script>
+        // Tab switching logic
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            document.getElementById(`view-${viewId}`).classList.add('active');
+            // Update active link
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(l => {
+                if (l.getAttribute('onclick').includes(viewId)) l.classList.add('active');
+            });
         }
 
-        const resourceId = button.getAttribute("data-delete-resource-id") || "";
-        const confirmed = window.confirm("Opravdu chceš smazat zdroj " + resourceId + "? Tuto akci nelze vrátit.");
-        if (!confirmed) {
-          return;
+        // Modal logic
+        function openModal(data) {
+            document.getElementById('modalTitle').textContent = `Resource: ${data.resource_id}`;
+            document.getElementById('modalJson').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('detailModal').classList.add('active');
         }
 
-        button.disabled = true;
-        const response = await fetch("/resources/" + encodeURIComponent(resourceId), { method: "DELETE" });
-        if (!response.ok) {
-          let errorData = { detail: "Mazání selhalo." };
-          try {
-            errorData = await response.json();
-          } catch (e) {
-            // Keep default error payload when API does not return JSON.
-          }
-          setStatus("resourcesStatus", "Mazání zdroje selhalo.", false);
-          setOutput("resourcesOutput", errorData);
-          button.disabled = false;
-          return;
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
         }
 
-        setStatus("resourcesStatus", "Zdroj " + resourceId + " byl smazán.", true);
-        await loadResources();
-      })
-    );
-
-    document.getElementById("loadResourceDetailBtn").addEventListener("click", () =>
-      handleRequest(async () => {
-        const resourceId = document.getElementById("resourceIdInput").value.trim();
-        const res = await fetch("/resources/" + encodeURIComponent(resourceId));
-        const data = await res.json();
-        if (!res.ok) {
-          setStatus("detailStatus", "Načtení detailu selhalo.", false);
-          setOutput("detailOutput", data);
-          return;
+        // Global state helper
+        function updateStatus(id, message, type) {
+            const el = document.getElementById(id);
+            el.textContent = message;
+            el.className = `status-box active ${type}`;
+            if (!message) el.classList.remove('active');
         }
-        setStatus("detailStatus", "Detail úspěšně načten.", true);
-        setOutput("detailOutput", data);
-      })
-    );
 
-    document.getElementById("createDraftBtn").addEventListener("click", () =>
-      handleRequest(async () => {
-        const resource_id = document.getElementById("draftIdInput").value.trim();
-        const title = document.getElementById("draftTitleInput").value.trim();
-        const url = document.getElementById("draftUrlInput").value.trim();
-        const res = await fetch("/resources/draft", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ resource_id, title, url, language: "EN" })
+        function toggleLoading(btnId, isLoading) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            const span = btn.querySelector('span');
+            const spinner = btn.querySelector('.loading-spinner');
+            btn.disabled = isLoading;
+            if (span) span.style.display = isLoading ? 'none' : 'inline';
+            if (spinner) spinner.style.display = isLoading ? 'block' : 'none';
+        }
+
+        // --- API INTERACTIONS ---
+
+        // Load / Search Resources
+        async function loadResources() {
+            const q = document.getElementById('searchInput').value.trim();
+            const url = q ? `/resources?q=${encodeURIComponent(q)}` : '/resources';
+            
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (!res.ok) throw new Error(data.detail || 'Error loading resources');
+                
+                renderCards(data);
+                updateStatus('searchStatus', '', '');
+            } catch (err) {
+                updateStatus('searchStatus', err.message, 'error');
+            }
+        }
+
+        function renderCards(resources) {
+            const grid = document.getElementById('resourcesGrid');
+            if (resources.length === 0) {
+                grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 40px;">No resources found.</p>';
+                return;
+            }
+
+            grid.innerHTML = resources.map(r => `
+                <div class="resource-card" onclick="viewResource('${r.resource_id}', event)">
+                    <div class="resource-id">${r.resource_id}</div>
+                    <div class="resource-title">${r.title || 'Untitled'}</div>
+                    <div class="resource-desc">${r.short_description || 'No description available.'}</div>
+                    <div class="resource-footer">
+                        <div class="resource-actions">
+                            <button class="btn btn-sm btn-accent" onclick="quickEnrich('${r.resource_id}', event)" id="enrich-btn-${r.resource_id}">
+                                <span>AI Enrich</span>
+                                <div class="loading-spinner" style="width:14px; height:14px;"></div>
+                            </button>
+                            <a href="${r.url}" target="_blank" class="resource-link" onclick="event.stopPropagation()">Open Source →</a>
+                        </div>
+                        <button class="delete-btn" onclick="deleteResource('${r.resource_id}', event)" title="Delete">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function viewResource(id, event) {
+            // Prevent if clicking on buttons
+            if (event.target.closest('button') || event.target.closest('a')) return;
+            
+            try {
+                const res = await fetch(`/resources/${encodeURIComponent(id)}`);
+                const data = await res.json();
+                if (!res.ok) throw new Error('Failed to load details');
+                openModal(data);
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        async function quickEnrich(id, event) {
+            event.stopPropagation();
+            const btnId = `enrich-btn-${id}`;
+            toggleLoading(btnId, true);
+            
+            try {
+                const res = await fetch(`/resources/${encodeURIComponent(id)}/enrich`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                const data = await res.json();
+                
+                if (!res.ok) throw new Error(data.detail || 'AI enrichment failed');
+                
+                alert(`Resource ${id} successfully enriched!`);
+                loadResources(); // Reload to show new data
+            } catch (err) {
+                alert(err.message);
+            } finally {
+                toggleLoading(btnId, false);
+            }
+        }
+
+        async function deleteResource(id, event) {
+            event.stopPropagation();
+            if (!confirm(`Are you sure you want to delete resource ${id}?`)) return;
+            
+            try {
+                const res = await fetch(`/resources/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Delete failed');
+                loadResources();
+            } catch (err) {
+                alert(err.message);
+            }
+        }
+
+        // Create Draft
+        document.getElementById('createBtn').addEventListener('click', async () => {
+            const id = document.getElementById('createId').value.trim();
+            const title = document.getElementById('createTitle').value.trim();
+            const url = document.getElementById('createUrl').value.trim();
+            
+            if (!id || !title || !url) {
+                updateStatus('createStatus', 'Please fill in all fields.', 'error');
+                return;
+            }
+
+            toggleLoading('createBtn', true);
+            updateStatus('createStatus', '', '');
+
+            try {
+                const res = await fetch('/resources/draft', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resource_id: id, title, url, language: 'EN' })
+                });
+                const data = await res.json();
+                
+                if (!res.ok) throw new Error(data.detail || 'Creation failed');
+                
+                updateStatus('createStatus', 'Draft resource successfully created!', 'success');
+                loadResources(); // Refresh grid in search view
+            } catch (err) {
+                updateStatus('createStatus', err.message, 'error');
+            } finally {
+                toggleLoading('createBtn', false);
+            }
         });
-        const data = await res.json();
-        if (!res.ok) {
-          setStatus("draftStatus", "Vytvoření draftu selhalo.", false);
-          setOutput("draftOutput", data);
-          return;
-        }
-        setStatus("draftStatus", "Draft karta byla vytvořena.", true);
-        setOutput("draftOutput", data);
-        document.getElementById("enrichResourceIdInput").value = resource_id;
-        document.getElementById("resourceIdInput").value = resource_id;
-      })
-    );
 
-    document.getElementById("enrichResourceBtn").addEventListener("click", () =>
-      handleRequest(async () => {
-        const resourceId = document.getElementById("enrichResourceIdInput").value.trim();
-        const url = document.getElementById("enrichUrlInput").value.trim();
-        const body = url ? { url } : {};
-        const res = await fetch("/resources/" + encodeURIComponent(resourceId) + "/enrich", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body)
+        // Enrich (Tab view)
+        document.getElementById('enrichBtn').addEventListener('click', async () => {
+            const id = document.getElementById('enrichId').value.trim();
+            const url = document.getElementById('enrichUrl').value.trim();
+            
+            if (!id) {
+                updateStatus('enrichStatus', 'Please enter a Resource ID.', 'error');
+                return;
+            }
+
+            toggleLoading('enrichBtn', true);
+            updateStatus('enrichStatus', 'AI is analyzing the source, please wait...', 'success');
+            document.getElementById('enrichResult').classList.add('hidden');
+
+            try {
+                const body = url ? { url } : {};
+                const res = await fetch(`/resources/${encodeURIComponent(id)}/enrich`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                
+                if (!res.ok) throw new Error(data.detail || 'AI analysis failed');
+                
+                updateStatus('enrichStatus', 'Resource successfully enriched with AI data.', 'success');
+                document.getElementById('enrichOutput').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('enrichResult').classList.remove('hidden');
+                loadResources();
+            } catch (err) {
+                updateStatus('enrichStatus', err.message, 'error');
+            } finally {
+                toggleLoading('enrichBtn', false);
+            }
         });
-        const data = await res.json();
-        if (!res.ok) {
-          setStatus("enrichStatus", "Rozšíření karty selhalo.", false);
-          setOutput("enrichOutput", data);
-          return;
+
+        // Initial load
+        document.getElementById('searchBtn').addEventListener('click', loadResources);
+        loadResources();
+
+        // Close modal on click outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target == modal) closeModal();
         }
-        setStatus("enrichStatus", "Karta byla rozšířena přes enrichment.", true);
-        setOutput("enrichOutput", data);
-      })
-    );
-  </script>
+    </script>
 </body>
 </html>
