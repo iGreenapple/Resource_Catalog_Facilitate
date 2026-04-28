@@ -11,6 +11,9 @@ def main() -> None:
         "DATABASE_URL",
         "postgresql://postgres:postgres@localhost:5432/resource_catalog",
     )
+    # Ensure compatibility with Render's 'postgres://' prefix
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
     migration_path = Path(__file__).resolve().parents[1] / "db" / "migrations" / "001_init.sql"
 
     sql = migration_path.read_text(encoding="utf-8")
