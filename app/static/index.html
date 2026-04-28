@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FACILITATE Resource Catalogue</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #141b33;
+      --card-soft: #1a2445;
+      --text: #e8eeff;
+      --muted: #afbddb;
+      --accent: #5ea1ff;
+      --ok: #2fc084;
+      --error: #ff6f6f;
+      --border: #2b3763;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #080d1a, #0b1020 25%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: radial-gradient(circle at top right, #1d3470, #121a34 60%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    h1, h2, h3 { margin-top: 0; }
+    h1 { margin-bottom: 8px; font-size: 2rem; }
+    .lead { color: var(--muted); margin-top: 0; }
+    .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .chip {
+      background: rgba(94, 161, 255, 0.15);
+      color: #cfe0ff;
+      border: 1px solid #3e5ca5;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .card p { color: var(--muted); }
+    .demo {
+      background: var(--card-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    label { display: block; margin-bottom: 6px; font-weight: bold; }
+    input {
+      width: 100%;
+      background: #0d1430;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: bold;
+      cursor: pointer;
+      background: var(--accent);
+      color: #0a1636;
+    }
+    pre {
+      margin: 12px 0 0;
+      padding: 12px;
+      border-radius: 8px;
+      background: #090f25;
+      border: 1px solid var(--border);
+      max-height: 280px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .status { margin-top: 8px; font-size: 0.92rem; }
+    .status.ok { color: var(--ok); }
+    .status.error { color: var(--error); }
+    .resources-matrix {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .resource-card {
+      background: #101936;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .resource-card h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+    .resource-card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .resource-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .resource-pill {
+      font-size: 0.78rem;
+      border: 1px solid #39589e;
+      color: #cfe0ff;
+      background: rgba(94, 161, 255, 0.12);
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+    .resource-actions {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .danger-btn {
+      border: 1px solid #b14f5f;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: #ffd9df;
+      background: rgba(177, 79, 95, 0.18);
+    }
+    .danger-btn:hover {
+      background: rgba(177, 79, 95, 0.32);
+    }
+    .danger-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .raw-json-label {
+      margin: 12px 0 4px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+    a { color: #9bc4ff; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <h1>FACILITATE Resource Catalogue</h1>
+      <p class="lead">
+        Interaktivní UI pro prezentaci hlavních funkcionalit API: vytvoření draft karty z minima dat a následné rozšíření přes AI enrichment.
+      </p>
+      <div class="chips">
+        <span class="chip">FastAPI backend</span>
+        <span class="chip">Resource CRUD</span>
+        <span class="chip">Filtrování katalogu</span>
+        <span class="chip">AI enrichment</span>
+      </div>
+      <p style="margin-top: 14px;">
+        API dokumentace: <a href="/docs" target="_blank" rel="noreferrer">/docs</a>
+      </p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h3>Seznam resources</h3>
+        <p>Načte data z <code>GET /resources</code> včetně volitelného fulltextu přes parametr <code>q</code>.</p>
+      </article>
+      <article class="card">
+        <h3>Detail resource</h3>
+        <p>Vyhledá konkrétní kartu přes <code>GET /resources/{id}</code>.</p>
+      </article>
+      <article class="card">
+        <h3>Draft + enrich flow</h3>
+        <p>Nejprve vytvoř draft přes <code>POST /resources/draft</code>, pak ho doplň přes <code>POST /resources/{id}/enrich</code>.</p>
+      </article>
+    </section>
+
+    <section class="demo">
+      <h2>Demo funkcionalit</h2>
+
+      <div style="margin-bottom: 16px;">
+        <label for="resourcesQueryInput">Fulltext (q)</label>
+        <input id="resourcesQueryInput" placeholder="např. roadmap, etds, interoperability" />
+        <button id="loadResourcesBtn">Načíst resources</button>
+        <div id="resourcesStatus" class="status"></div>
+        <div id="resourcesCards" class="resources-matrix"></div>
+        <p class="raw-json-label">Raw JSON výstup:</p>
+        <pre id="resourcesOutput">Zadej volitelně fulltext a klikni na "Načíst resources".</pre>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label for="resourceIdInput">Resource ID</label>
+        <input id="resourceIdInput" value="FAC-R-0001" />
+        <button id="loadResourceDetailBtn">Načíst detail</button>
+        <div id="detailStatus" class="status"></div>
+        <pre id="detailOutput">Zadej resource ID a načti detail.</pre>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <h3>1) Vytvoření draft resource</h3>
+        <label for="draftIdInput">Draft Resource ID</label>
+        <input id="draftIdInput" value="FAC-R-0002" />
+        <label for="draftTitleInput">Title</label>
+        <input id="draftTitleInput" value="My new tourism resource" />
+        <label for="draftUrlInput">URL</label>
+        <input id="draftUrlInput" value="https://example.com" />
+        <button id="createDraftBtn">Vytvořit draft</button>
+        <div id="draftStatus" class="status"></div>
+        <pre id="draftOutput">Vyplň minimální data a vytvoř draft kartu.</pre>
+      </div>
+
+      <div>
+        <h3>2) Rozšíření existující draft karty</h3>
+        <label for="enrichResourceIdInput">Resource ID k obohacení</label>
+        <input id="enrichResourceIdInput" value="FAC-R-0002" />
+        <label for="enrichUrlInput">URL pro AI enrichment (volitelné)</label>
+        <input id="enrichUrlInput" value="https://tourismdataspace-csa.eu/" />
+        <button id="enrichResourceBtn">Rozšířit kartu přes AI enrichment</button>
+        <div id="enrichStatus" class="status"></div>
+        <pre id="enrichOutput">Po vytvoření draftu spusť enrichment pro doplnění karty.</pre>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function setStatus(id, message, ok) {
+      const el = document.getElementById(id);
+      el.textContent = message;
+      el.className = "status " + (ok ? "ok" : "error");
+    }
+
+    function setOutput(id, data) {
+      document.getElementById(id).textContent = JSON.stringify(data, null, 2);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function renderResourcesCards(resources) {
+      const container = document.getElementById("resourcesCards");
+      if (!Array.isArray(resources) || resources.length === 0) {
+        container.innerHTML = "<p class=\"lead\">Nebyly nalezeny žádné resources.</p>";
+        return;
+      }
+
+      container.innerHTML = resources
+        .map((resource) => {
+          const title = escapeHtml(resource.title || "Bez názvu");
+          const id = escapeHtml(resource.resource_id || "N/A");
+          const url = escapeHtml(resource.url || "");
+          const shortDescription = String(resource.short_description || "Bez popisu.");
+          const descriptionPreviewRaw = shortDescription.length > 180
+            ? shortDescription.slice(0, 180) + "..."
+            : shortDescription;
+          const descriptionPreview = escapeHtml(descriptionPreviewRaw);
+          return `
+            <article class="resource-card">
+              <div class="resource-meta">
+                <span class="resource-pill">${id}</span>
+              </div>
+              <h4>${title}</h4>
+              <p>${descriptionPreview}</p>
+              <a href="${url}" target="_blank" rel="noreferrer">${url}</a>
+              <div class="resource-actions">
+                <button type="button" class="danger-btn" data-delete-resource-id="${id}">Smazat zdroj</button>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    async function loadResources() {
+      const query = document.getElementById("resourcesQueryInput").value.trim();
+      const params = new URLSearchParams();
+      if (query) {
+        params.set("q", query);
+      }
+      const endpoint = params.toString() ? "/resources?" + params.toString() : "/resources";
+      const res = await fetch(endpoint);
+      const data = await res.json();
+      if (!res.ok) {
+        setStatus("resourcesStatus", "Načtení selhalo.", false);
+        renderResourcesCards([]);
+        setOutput("resourcesOutput", data);
+        return;
+      }
+      const statusMessage = query
+        ? "Resources úspěšně načteny pro q=\"" + query + "\"."
+        : "Resources úspěšně načteny.";
+      setStatus("resourcesStatus", statusMessage, true);
+      renderResourcesCards(data);
+      setOutput("resourcesOutput", data);
+    }
+
+    async function handleRequest(action) {
+      try {
+        await action();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    document.getElementById("loadResourcesBtn").addEventListener("click", () =>
+      handleRequest(loadResources)
+    );
+
+    document.getElementById("resourcesCards").addEventListener("click", (event) =>
+      handleRequest(async () => {
+        const button = event.target.closest("button[data-delete-resource-id]");
+        if (!button) {
+          return;
+        }
+
+        const resourceId = button.getAttribute("data-delete-resource-id") || "";
+        const confirmed = window.confirm("Opravdu chceš smazat zdroj " + resourceId + "? Tuto akci nelze vrátit.");
+        if (!confirmed) {
+          return;
+        }
+
+        button.disabled = true;
+        const response = await fetch("/resources/" + encodeURIComponent(resourceId), { method: "DELETE" });
+        if (!response.ok) {
+          let errorData = { detail: "Mazání selhalo." };
+          try {
+            errorData = await response.json();
+          } catch (e) {
+            // Keep default error payload when API does not return JSON.
+          }
+          setStatus("resourcesStatus", "Mazání zdroje selhalo.", false);
+          setOutput("resourcesOutput", errorData);
+          button.disabled = false;
+          return;
+        }
+
+        setStatus("resourcesStatus", "Zdroj " + resourceId + " byl smazán.", true);
+        await loadResources();
+      })
+    );
+
+    document.getElementById("loadResourceDetailBtn").addEventListener("click", () =>
+      handleRequest(async () => {
+        const resourceId = document.getElementById("resourceIdInput").value.trim();
+        const res = await fetch("/resources/" + encodeURIComponent(resourceId));
+        const data = await res.json();
+        if (!res.ok) {
+          setStatus("detailStatus", "Načtení detailu selhalo.", false);
+          setOutput("detailOutput", data);
+          return;
+        }
+        setStatus("detailStatus", "Detail úspěšně načten.", true);
+        setOutput("detailOutput", data);
+      })
+    );
+
+    document.getElementById("createDraftBtn").addEventListener("click", () =>
+      handleRequest(async () => {
+        const resource_id = document.getElementById("draftIdInput").value.trim();
+        const title = document.getElementById("draftTitleInput").value.trim();
+        const url = document.getElementById("draftUrlInput").value.trim();
+        const res = await fetch("/resources/draft", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ resource_id, title, url, language: "EN" })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setStatus("draftStatus", "Vytvoření draftu selhalo.", false);
+          setOutput("draftOutput", data);
+          return;
+        }
+        setStatus("draftStatus", "Draft karta byla vytvořena.", true);
+        setOutput("draftOutput", data);
+        document.getElementById("enrichResourceIdInput").value = resource_id;
+        document.getElementById("resourceIdInput").value = resource_id;
+      })
+    );
+
+    document.getElementById("enrichResourceBtn").addEventListener("click", () =>
+      handleRequest(async () => {
+        const resourceId = document.getElementById("enrichResourceIdInput").value.trim();
+        const url = document.getElementById("enrichUrlInput").value.trim();
+        const body = url ? { url } : {};
+        const res = await fetch("/resources/" + encodeURIComponent(resourceId) + "/enrich", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setStatus("enrichStatus", "Rozšíření karty selhalo.", false);
+          setOutput("enrichOutput", data);
+          return;
+        }
+        setStatus("enrichStatus", "Karta byla rozšířena přes enrichment.", true);
+        setOutput("enrichOutput", data);
+      })
+    );
+  </script>
+</body>
+</html>
